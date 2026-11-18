@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090d18">
+<title>Roblox Story Studio AI</title>
+<style>
+:root{--bg:#090d18;--panel:#111a2b;--panel2:#17243a;--line:#283b59;--text:#f3f6ff;--muted:#a8b5ca;--blue:#64a9ff;--purple:#a78bfa;--green:#72e0b2}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 20% 0%,#17294a 0,transparent 42%),var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,Arial}
+header{padding:28px 18px 18px;text-align:center}header .logo{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:17px;background:linear-gradient(135deg,var(--blue),var(--purple));font-size:27px;font-weight:900;box-shadow:0 10px 35px #477ed855}
+h1{font-size:clamp(25px,5vw,38px);margin:13px 0 4px;letter-spacing:-1px}header p{margin:0;color:var(--muted)}
+main{max-width:1080px;margin:auto;padding:14px 16px 50px;display:grid;gap:16px;grid-template-columns: minmax(0, .9fr) minmax(0,1.1fr)}
+.panel{background:linear-gradient(160deg,#142039,#0f1727);border:1px solid var(--line);border-radius:20px;padding:19px;box-shadow:0 14px 45px #0003}
+h2{font-size:17px;margin:0 0 14px}label{display:block;color:#dce6f8;font-weight:650;margin:13px 0 6px}
+textarea,select,input{width:100%;background:#0a1220;color:var(--text);border:1px solid #314665;border-radius:11px;padding:12px;font:inherit;outline:none}
+textarea:focus,select:focus,input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #64a9ff20}
+textarea{min-height:140px;resize:vertical}select{cursor:pointer}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{border:0;border-radius:12px;padding:12px 15px;font:700 14px inherit;cursor:pointer;color:#07101d;background:linear-gradient(100deg,var(--blue),#9c8cff);width:100%;margin-top:14px}
+button.secondary{background:#1b2a43;color:#eaf1ff;border:1px solid #344b6d}
+button:disabled{opacity:.55;cursor:wait}.hint{color:var(--muted);font-size:12px;margin:8px 0}
+.output{min-height:250px;white-space:pre-wrap;color:#e5edfb;background:#0a1220;border:1px solid #293d5b;border-radius:13px;padding:14px;max-height:480px;overflow:auto}
+.stats{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.pill{font-size:12px;color:#dbe8ff;background:#1b2d49;border:1px solid #304968;padding:5px 9px;border-radius:30px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}.actions button{margin-top:8px}
+.notice{border-left:3px solid var(--purple);padding:9px 12px;background:#17172c;color:#c9c9e9;border-radius:0 9px 9px 0;font-size:12px;margin-top:13px}
+.scene{padding:11px 12px;border:1px solid #2b405f;border-radius:11px;margin:8px 0;background:#0c1627}.scene b{color:#9bc6ff}
+footer{text-align:center;color:#8392aa;font-size:12px;padding:0 15px 24px}
+@media(max-width:760px){main{grid-template-columns:1fr}.row{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header><div class="logo">R</div><h1>Roblox Story Studio <span style="color:#9c8cff">AI</span></h1><p>Transforme uma ideia em roteiro, cenas e narração para vídeos de Roblox.</p></header>
+<main>
+<section class="panel">
+<h2>✨ Crie sua história</h2>
+<label for="idea">Sua ideia</label>
+<textarea id="idea" placeholder="Ex.: Um jogador novato entra em uma escola de Roblox e descobre que o diretor esconde um segredo..."></textarea>
+<div class="row">
+<div><label for="genre">Gênero</label><select id="genre"><option>Aventura e mistério</option><option>Terror leve e suspense</option><option>Comédia</option><option>Drama</option><option>Romance adolescente leve</option><option>Ação e sobrevivência</option><option>Fantasia</option></select></div>
+<div><label for="duration">Duração desejada</label><select id="duration"><option value="2">2 a 3 minutos</option><option value="4" selected>4 a 5 minutos</option><option value="6">6 a 8 minutos</option><option value="8">8 a 10 minutos</option></select></div>
+</div>
+<div class="row">
+<div><label for="tone">Estilo da narração</label><select id="tone"><option>Cinematográfica</option><option>Emocionante</option><option>Misteriosa</option><option>Engraçada</option><option>Documental</option></select></div>
+<div><label for="voice">Voz do narrador</label><select id="voice"><option value="">Voz padrão</option></select></div>
+</div>
+<label for="names">Personagens (opcional)</label><input id="names" placeholder="Ex.: Alex, Luna e o Guardião">\n<label for="heroVoice">Voz do personagem principal</label><select id="heroVoice"><option value="">Escolher voz disponível...</option></select><p class="hint">A voz escolhida será usada nas falas identificadas como personagem principal. As vozes dependem do Android/navegador.</p>
+<label for="heroVoice">Voz do personagem principal</label><select id="heroVoice"><option value="">Voz padrão do personagem</option></select><p class="hint">Você pode escolher uma voz diferente para o protagonista e para o narrador. As vozes disponíveis dependem do aparelho e do navegador.</p>
+<button id="generate">Gerar história e roteiro</button>
+<p class="hint">Esta versão monta automaticamente um roteiro longo em estilo Roblox 3D e permite selecionar vozes diferentes para narrador e protagonista. Para histórias realmente inéditas por IA, é necessário conectar um modelo de texto ao backend.</p>
+<div class="notice">Modo automático Roblox 3D: o estúdio monta roteiro, divisão de cenas, descrições visuais e falas. A geração de clipes de vídeo reais ainda exige conectar uma API de vídeo externa.</div>
+</section>
+<section class="panel">
+<h2>🎬 Seu roteiro automático — Roblox 3D</h2>
+<div class="stats"><span class="pill" id="wordCount">0 palavras</span><span class="pill" id="timeCount">Duração estimada: —</span><span class="pill" id="sceneCount">0 cenas</span></div>
+<div class="output" id="output">Sua história aparecerá aqui. Escreva uma ideia e toque em “Gerar história e roteiro”.</div>
+<div class="actions">
+<button class="secondary" id="speak">▶ Ouvir narração</button>
+<button class="secondary" id="stop">■ Parar voz</button>
+<button class="secondary" id="download">⬇ Baixar roteiro .txt</button>
+<button class="secondary" id="copy">Copiar roteiro</button>
+</div>
+<h2 style="margin-top:22px">📽️ Plano de cenas</h2>
+<div id="scenes"><p class="hint">As cenas serão organizadas aqui depois da geração.</p></div>
+</section>
+</main>
+<footer>Roblox Story Studio AI • Ferramenta independente, não afiliada à Roblox.</footer>
+<script>
+const $=id=>document.getElementById(id);
+let scriptText='', sceneTexts=[];
+const templates=[
+{title:'A descoberta',body:'Tudo começou como um dia normal. [PERSONAGEM] entrou naquele lugar sem imaginar que uma simples descoberta mudaria tudo. Havia algo estranho no ambiente: portas que apareciam abertas e mensagens que ninguém admitia ter escrito.'},
+{title:'O primeiro sinal',body:'No começo, [PERSONAGEM] tentou ignorar os sinais. Mas então surgiu uma pista impossível de explicar. Cada detalhe parecia levar a uma verdade escondida, e a curiosidade falou mais alto que o medo.'},
+{title:'A investigação',body:'Com a ajuda de seus aliados, [PERSONAGEM] decidiu investigar. Eles reuniram pistas, compararam informações e perceberam que o mistério era muito maior do que parecia. A cada resposta, uma nova pergunta surgia.'},
+{title:'A reviravolta',body:'Quando finalmente parecia que tudo estava resolvido, uma revelação mudou completamente a história. A pessoa em quem todos confiavam sabia mais do que dizia. Agora, [PERSONAGEM] precisava escolher em quem acreditar.'},
+{title:'O confronto',body:'Chegou a hora de encarar a verdade. Em vez de desistir, [PERSONAGEM] reuniu coragem e colocou o plano em prática. O momento decisivo exigiu inteligência, trabalho em equipe e uma escolha difícil.'},
+{title:'O final',body:'Depois de tantos acontecimentos, as peças finalmente se encaixaram. [PERSONAGEM] descobriu que a maior força não estava em vencer sozinho, mas em confiar nas pessoas certas. Porém, antes de tudo terminar, uma última pista apareceu...'}
+];
+function makeScript(){
+ const idea=$('idea').value.trim(); if(!idea){$('idea').focus();alert('Escreva uma ideia para começar.');return}
+ const mins=Number($('duration').value), genre=$('genre').value, tone=$('tone').value;
+ const names=$('names').value.trim()||'o protagonista'; const lead=names.split(',')[0].trim();
+ const wordsTarget=mins*135; const intro=`TÍTULO: ${idea.length>55?idea.slice(0,52)+'...':idea}\nGÊNERO: ${genre}\nESTILO: ${tone}\n\nABERTURA — NARRADOR\nImagine entrar em um jogo e perceber que nada ali é como deveria ser. Hoje, você vai conhecer uma história em que cada escolha tem uma consequência. Tudo começa com esta ideia: ${idea}\n\n`;
+ let parts=[intro];
+ const count=Math.max(6,Math.ceil(mins*1.5));
+ for(let i=0;i<count;i++){
+  const t=templates[i%templates.length]; let body=t.body.replaceAll('[PERSONAGEM]',lead);
+  if(i>=6) body+=' O tempo estava acabando, e cada segundo tornava a decisão ainda mais importante. Ninguém sabia o que aconteceria depois, mas voltar atrás já não era uma opção.';
+  parts.push(`CENA ${i+1} — ${t.title.toUpperCase()}\nVISUAL: Mostrar ${lead} em um cenário de Roblox relacionado à ideia: ${idea}. Usar enquadramento cinematográfico, movimentos suaves de câmera e expressões claras.\nNARRADOR: ${body}\nPERSONAGEM ${lead}: “Eu preciso descobrir o que está acontecendo. Não vou desistir agora!”\n\n`);
+ }
+ parts.push(`ENCERRAMENTO — NARRADOR\nE essa foi a jornada de ${lead}. Se você estivesse no lugar dele, teria feito a mesma escolha? Conte nos comentários e acompanhe a próxima história, porque neste universo... sempre existe mais um segredo esperando para ser descoberto.`);
+ scriptText=parts.join('');
+ // Expand to approximate requested length with natural recap/transition blocks.
+ while(scriptText.split(/\s+/).length < wordsTarget){
+  const add=`\nTRANSIÇÃO — NARRADOR\nA câmera acompanha os personagens pelo cenário enquanto a trilha aumenta de intensidade. ${lead} observa os detalhes ao redor e percebe que aquela experiência ensinou algo importante: pensar antes de agir pode mudar completamente o resultado. A próxima pista surge ao fundo, conectando os acontecimentos anteriores e preparando o caminho para a decisão final.\n`;
+  scriptText+=add;
+ }
+ sceneTexts=[...scriptText.matchAll(/CENA \d+ — ([^\n]+)\nVISUAL: ([^\n]+)\nNARRAÇÃO: ([\s\S]*?)(?=\n\nCENA|\n\nENCERRAMENTO|$)/g)].map(m=>({title:m[1],visual:m[2],narration:m[3].trim()}));
+ $('output').textContent=scriptText;
+ const wc=scriptText.trim().split(/\s+/).length;
+ $('wordCount').textContent=wc+' palavras';
+ const secs=Math.round(wc/135*60); $('timeCount').textContent='Duração estimada: '+Math.floor(secs/60)+'min '+String(secs%60).padStart(2,'0')+'s';
+ $('sceneCount').textContent=sceneTexts.length+' cenas';
+ $('scenes').innerHTML=sceneTexts.map((s,i)=>`<div class="scene"><b>Cena ${i+1}: ${escapeHtml(s.title)}</b><p class="hint">Visual: ${escapeHtml(s.visual)}</p><p>${escapeHtml(s.narration)}</p></div>`).join('');
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+$('generate').onclick=makeScript;
+$('speak').onclick=()=>{if(!scriptText){alert('Gere uma história primeiro.');return} if(!('speechSynthesis'in window)){alert('Seu navegador não oferece narração automática.');return} speechSynthesis.cancel();
+ const narrator=$('voice').value, hero=$('heroVoice').value, voices=speechSynthesis.getVoices();
+ // Alterna as vozes por bloco: falas do protagonista recebem a voz selecionada.
+ const blocks=scriptText.split(/(?=\\nCENA \\d+ — )/g).filter(Boolean); let i=0;
+ function next(){if(i>=blocks.length)return;const block=blocks[i++];const isHero=/FALA DO PERSONAGEM PRINCIPAL:/i.test(block);
+ const chosen=isHero&&hero?hero:narrator;const u=new SpeechSynthesisUtterance(block);u.lang='pt-BR';u.rate=.94;u.pitch=isHero?1.02:1;
+ const v=voices.find(x=>x.name===chosen);if(v)u.voice=v;u.onend=next;speechSynthesis.speak(u)}next();};
+$('stop').onclick=()=>speechSynthesis.cancel();
+$('download').onclick=()=>{if(!scriptText)return alert('Gere uma história primeiro.');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([scriptText],{type:'text/plain;charset=utf-8'}));a.download='roteiro-roblox.txt';a.click();URL.revokeObjectURL(a.href)};
+$('copy').onclick=async()=>{if(!scriptText)return alert('Gere uma história primeiro.');try{await navigator.clipboard.writeText(scriptText);alert('Roteiro copiado!')}catch(e){alert('Não foi possível copiar neste navegador.')}};
+function loadVoices(){['voice','heroVoice'].forEach(id=>{const sel=$(id);const current=sel.value;sel.innerHTML='<option value="">Voz padrão</option>';speechSynthesis.getVoices().filter(v=>v.lang.toLowerCase().includes('pt')).forEach(v=>{const o=document.createElement('option');o.value=v.name;o.textContent=v.name+' ('+v.lang+')';sel.appendChild(o)});sel.value=current})}
+if('speechSynthesis'in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices}
+</script>
+</body></html>
